@@ -1,5 +1,6 @@
 import pygame, sys, random
 from settings import *
+import numpy as np
 from pacman_class import Pacman
 pygame.init()
 vec = pygame.math.Vector2
@@ -18,7 +19,7 @@ class App:
         self.astar = []
         self.pacman = Pacman(self, vec(1,1))
         self.fini = False
-        
+        self.stop = False
         self.load()
           
     def run(self):
@@ -53,13 +54,14 @@ class App:
         self.background = pygame.transform.scale(self.background, (MAZE_WIDTH,MAZE_HEIGHT))
         # opening wall.txt
         #creating wall list with coordinate of wall
-        with open("wall.txt","r") as file:
-            for yidx,line in enumerate(file):
-                for xinx, char in enumerate(line):
-                    if char == "1":
-                        self.wall.append(vec(xinx, yidx))
-                    if char == "0":
-                        self.empty_coins.append(vec(xinx, yidx))
+        # with open("wall.txt","r") as file:
+        #     for yidx,line in enumerate(file):
+        #         for xinx, char in enumerate(line):
+        #             if char == "1":
+        #                 self.wall.append(vec(xinx, yidx))
+        #             if char == "0":
+        #                 self.empty_coins.append(vec(xinx, yidx))
+        self.random_wall(17,10)
         # self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),5)]
         # print(self.coins)
         # self.astar = astar(PACMAN_START_POS, self.coins[0], self.wall)
@@ -80,6 +82,21 @@ class App:
             pix_coin = self.pacman.get_pix_pos(coin)
             pygame.draw.circle(self.background, PACMAN_COLOUR, 
                             (int(pix_coin.x),int(pix_coin.y)),5)
+    def random_wall(self,num_col,num_row):
+        width_list = [i for i in range(MAZE_WIDTH/self.cell_width)]
+        height_list = [i for i in range(MAZE_HEIGHT/self.cell_height)]
+        rad = np.random.choice(range(MAZE_WIDTH/self.cell_width),num_col,replace=False)
+        for xinx in rad:
+            y = np.random.choice(range(MAZE_HEIGHT/self.cell_height),num_row,replace=False)
+            y_ = [i for i in height_list if i not in y]
+            for yidx in y:
+                self.wall.append(vec(xinx, yidx))
+            for y_idx in y_:
+                self.empty_coins.append(vec(xinx, y_idx))
+        rad_ = [i for i in width_list if i not in rad]
+        for xinx in rad_:
+            for yidx in height_list:
+                self.empty_coins.append(vec(xinx, yidx))
 ####### START FUNCTION
     def start_events(self):
         for event in pygame.event.get():
@@ -115,6 +132,8 @@ class App:
                 #     k_2 = True
                 #     print(k_2)
                 # keys = pygame.key.get_pressed()
+                if event_key == pygame.K_p:
+                    self.stop = True
                 if event.key == pygame.K_1:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),1)]
                     self.pacman.step = 0
