@@ -132,7 +132,7 @@ class App:
                 #     k_2 = True
                 #     print(k_2)
                 # keys = pygame.key.get_pressed()
-                if event_key == pygame.K_p:
+                if event.key == pygame.K_p:
                     self.stop = True
                 if event.key == pygame.K_1:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),1)]
