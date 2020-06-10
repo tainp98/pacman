@@ -12,6 +12,16 @@ class Pacman:
         self.flag = True
         #self.direction = self.move(direction)
     def update(self):
+        if self.app.stop == True:
+            self.app.wall = []
+            self.app.empty_coins = []
+            self.app.random_wall(17,10)
+            coin_wall = [coin for coin in self.app.coins if coin in self.app.wall]
+            if len(coin_wall) != 0:
+                for coin in coin_wall:
+                    self.app.coins.remove(coin)
+            self.app.astar = []
+            self.app.stop = False
         if len(self.app.astar) == 0:
             #print(self.step)
             if len(self.app.coins) > 0:
@@ -22,11 +32,11 @@ class Pacman:
                 index = ls1.index(min(ls1))
                 # print("first_pos",self.pix_pos)
                 # print('index',index)
-                # print(self.app.coins[index])
+                #print(self.app.coins[index])
                 ls = astar(self.pix_pos, self.app.coins[index], self.app.wall)
                 #print("ls",ls)
                 if ls == None:
-                    self.app.coins.pop(0)
+                    self.app.coins.pop(index)
                     pass
                 else:
                     for a in ls:
@@ -35,7 +45,7 @@ class Pacman:
         else:
             #self.flag = False
             x = self.app.astar.pop(0)
-            #print(self.app.astar)
+            #print(x)
             if x == self.end:
                 self.app.astar = []
             #print(self.app.astar)
