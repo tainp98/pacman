@@ -26,6 +26,7 @@ def astar(start, end, walls):
     # Create start and end node
     # start = get_pix_pos(start)
     end = get_pix_pos(end)
+    #print(start,end)
     start_node = Node(None, start)
     start_node.g = start_node.h = start_node.f = 0
     end_node = Node(None, end)
@@ -70,7 +71,7 @@ def astar(start, end, walls):
             node_position = (current_node.position[0] + new_position[0]*cell_width, current_node.position[1] + new_position[1]*cell_height)
 
             # Make sure within range
-            if node_position[0] > MAZE_WIDTH+TOP_BOTTOM_BUFFER//2 or node_position[0] < TOP_BOTTOM_BUFFER//2 or node_position[1] > MAZE_HEIGHT+TOP_BOTTOM_BUFFER//2 or node_position[1] < TOP_BOTTOM_BUFFER//2:
+            if node_position[0] > MAZE_WIDTH or node_position[0] < 0 or node_position[1] > MAZE_HEIGHT or node_position[1] < 0:
                 continue
 
             # Make sure walkable terrain
@@ -107,7 +108,7 @@ def astar(start, end, walls):
             # Child is already in the open list
             break2 = False
             for open_node in open_list:
-                if child == open_node:
+                if child.position[0] == open_node.position[0] and child.position[1] == open_node.position[1]:
                     break2 = True
                     break
             if break2 == True:
