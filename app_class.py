@@ -83,11 +83,11 @@ class App:
             pygame.draw.circle(self.background, PACMAN_COLOUR, 
                             (int(pix_coin.x),int(pix_coin.y)),5)
     def random_wall(self,num_col,num_row):
-        width_list = [i for i in range(MAZE_WIDTH/self.cell_width)]
-        height_list = [i for i in range(MAZE_HEIGHT/self.cell_height)]
-        rad = np.random.choice(range(MAZE_WIDTH/self.cell_width),num_col,replace=False)
+        width_list = [i for i in range(int(MAZE_WIDTH/self.cell_width))]
+        height_list = [i for i in range(int(MAZE_HEIGHT/self.cell_height))]
+        rad = np.random.choice(range(int(MAZE_WIDTH/self.cell_width)),num_col,replace=False)
         for xinx in rad:
-            y = np.random.choice(range(MAZE_HEIGHT/self.cell_height),num_row,replace=False)
+            y = np.random.choice(range(int(MAZE_HEIGHT/self.cell_height)),num_row,replace=False)
             y_ = [i for i in height_list if i not in y]
             for yidx in y:
                 self.wall.append(vec(xinx, yidx))
