@@ -1,7 +1,8 @@
 from pygame.math import Vector2 as vec
 import pygame
 from settings import * 
-from astar import *
+from astar import Astar
+from bfs import BFS
 class Pacman:
     def __init__(self, app, pos):
         self.app = app
@@ -10,6 +11,7 @@ class Pacman:
         self.step = 0
         self.index = 0
         self.flag = True
+        self.astar = Astar()
         #self.direction = self.move(direction)
     def update(self):
         if self.app.stop == True:
@@ -23,25 +25,67 @@ class Pacman:
             self.app.astar = []
             self.app.stop = False
         if len(self.app.astar) == 0:
-            #print(self.step)
-            if len(self.app.coins) > 0:
-                #print("a")
-                pix_coins = [self.get_pix_pos(a) for a in self.app.coins]
-                ls1 = [(self.pix_pos.x-pix_coins[i][0])**2
-                        +(self.pix_pos.y-pix_coins[i][1])**2 for i in range(len(self.app.coins))]
-                index = ls1.index(min(ls1))
-                # print("first_pos",self.pix_pos)
-                # print('index',index)
-                #print(self.app.coins[index])
-                ls = astar(self.pix_pos, self.app.coins[index], self.app.wall)
-                #print("ls",ls)
+            if self.app.select == None:
+                if len(self.app.coins) > 0:
+                    #print("a")
+                    pix_coins = [self.get_pix_pos(a) for a in self.app.coins]
+                    ls1 = [(self.pix_pos.x-pix_coins[i][0])**2
+                            +(self.pix_pos.y-pix_coins[i][1])**2 for i in range(len(self.app.coins))]
+                    index = ls1.index(min(ls1))
+                    # print("first_pos",self.pix_pos)
+                    # print('index',index)
+                    #print(self.app.coins[index])
+                    ls = self.astar.astar(self.pix_pos, self.app.coins[index], self.app.wall)
+                    if ls == None:
+                        self.app.coins.pop(index)
+                        pass
+                    else:
+                        for a in ls:
+                            self.app.astar.append(a)
+                        self.end = self.app.astar[-1]
+            elif self.app.select.lower() == 'bfs' and self.flag:
+                self.bfs = BFS(self.app)
+                self.app.coins = [vec(29,15)]
+                ls = self.bfs.BFS(self.grid_pos,self.app.coins[0])
                 if ls == None:
-                    self.app.coins.pop(index)
+                    self.app.coins.pop(0)
                     pass
                 else:
                     for a in ls:
                         self.app.astar.append(a)
                     self.end = self.app.astar[-1]
+                self.flag = False
+                print(self.bfs.nodes_across)
+            elif self.app.select.lower() == 'a star' and self.flag:
+                
+                self.app.coins = [vec(29,15)]
+                ls = self.astar.astar(self.pix_pos, self.app.coins[0], self.app.wall)
+                if ls == None:
+                    self.app.coins.pop(0)
+                    pass
+                else:
+                    for a in ls:
+                        self.app.astar.append(a)
+                    self.end = self.app.astar[-1]
+                self.flag = False
+            # else:
+            #     if len(self.app.coins) > 0:
+            #         #print("a")
+            #         pix_coins = [self.get_pix_pos(a) for a in self.app.coins]
+            #         ls1 = [(self.pix_pos.x-pix_coins[i][0])**2
+            #                 +(self.pix_pos.y-pix_coins[i][1])**2 for i in range(len(self.app.coins))]
+            #         index = ls1.index(min(ls1))
+            #         # print("first_pos",self.pix_pos)
+            #         # print('index',index)
+            #         #print(self.app.coins[index])
+            #         ls = self.astar.astar(self.pix_pos, self.app.coins[index], self.app.wall)
+            #         if ls == None:
+            #             self.app.coins.pop(index)
+            #             pass
+            #         else:
+            #             for a in ls:
+            #                 self.app.astar.append(a)
+            #             self.end = self.app.astar[-1]
         else:
             #self.flag = False
             x = self.app.astar.pop(0)
