@@ -44,7 +44,7 @@ python/python3 -m pip install -r requirements.txt (on Ubuntu)
 ## **How To Use**
 1. Run program
    - py main.py (on Window)
-   - python/python3 (on Ubuntu)
+   - python/python3 main.py or ./run.sh (on Ubuntu)
 2. KeyBroad
    - Press any keybroad to start game
    - Then press keybroad[1,2,3,4,5,6,7,8,9,q,w,e,r,a,s] to start action add coins to maze [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15] numbers of coin 
