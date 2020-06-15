@@ -12,12 +12,13 @@ class Pacman:
         self.index = 0
         self.flag = True
         self.astar = Astar()
+        self.bfs = 0
         #self.direction = self.move(direction)
     def update(self):
         if self.app.stop == True:
             self.app.wall = []
             self.app.empty_coins = []
-            self.app.random_wall(17,10)
+            self.app.random_wall(24,14)
             coin_wall = [coin for coin in self.app.coins if coin in self.app.wall]
             if len(coin_wall) != 0:
                 for coin in coin_wall:
@@ -44,30 +45,42 @@ class Pacman:
                             self.app.astar.append(a)
                         self.end = self.app.astar[-1]
             elif self.app.select.lower() == 'bfs' and self.flag:
-                self.bfs = BFS(self.app)
-                self.app.coins = [vec(29,15)]
-                ls = self.bfs.BFS(self.grid_pos,self.app.coins[0])
-                if ls == None:
-                    self.app.coins.pop(0)
-                    pass
+                if(len(self.app.coins) > 0):
+                    #self.bfs = BFS(self.app)
+                    #ls = self.bfs.BFS(self.pix_pos,self.app.coins[0])
+                    pix_coins = [self.get_pix_pos(a) for a in self.app.coins]
+                    ls1 = [(self.pix_pos.x-pix_coins[i][0])**2
+                            +(self.pix_pos.y-pix_coins[i][1])**2 for i in range(len(self.app.coins))]
+                    index = ls1.index(min(ls1))
+                    ls = self.bfs.BFS(self.pix_pos,self.app.coins[index])
+                    if ls == None:
+                        self.app.coins.pop(index)
+                        pass
+                    else:
+                        for a in ls:
+                            self.app.astar.append(a)
+                        self.end = self.app.astar[-1]
                 else:
-                    for a in ls:
-                        self.app.astar.append(a)
-                    self.end = self.app.astar[-1]
-                self.flag = False
-                print(self.bfs.nodes_across)
+                    self.flag = False
             elif self.app.select.lower() == 'a star' and self.flag:
-                
-                self.app.coins = [vec(29,15)]
-                ls = self.astar.astar(self.pix_pos, self.app.coins[0], self.app.wall)
-                if ls == None:
-                    self.app.coins.pop(0)
-                    pass
+                if(len(self.app.coins) > 0):
+                    pix_coins = [self.get_pix_pos(a) for a in self.app.coins]
+                    ls1 = [(self.pix_pos.x-pix_coins[i][0])**2
+                            +(self.pix_pos.y-pix_coins[i][1])**2 for i in range(len(self.app.coins))]
+                    index = ls1.index(min(ls1))
+                    # print("first_pos",self.pix_pos)
+                    # print('index',index)
+                    #print(self.app.coins[index])
+                    ls = self.astar.astar(self.pix_pos, self.app.coins[index], self.app.wall)
+                    if ls == None:
+                        self.app.coins.pop(index)
+                        pass
+                    else:
+                        for a in ls:
+                            self.app.astar.append(a)
+                        self.end = self.app.astar[-1]
                 else:
-                    for a in ls:
-                        self.app.astar.append(a)
-                    self.end = self.app.astar[-1]
-                self.flag = False
+                    self.flag = False
             # else:
             #     if len(self.app.coins) > 0:
             #         #print("a")

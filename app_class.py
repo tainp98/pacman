@@ -6,6 +6,7 @@ from bfs import BFS
 pygame.init()
 vec = pygame.math.Vector2
 from astar import *
+from bfs import BFS
 class App:
     def __init__(self,select=None):
         self.screen = pygame.display.set_mode(size)
@@ -100,6 +101,8 @@ class App:
             y = np.random.choice(range(int(MAZE_HEIGHT/self.cell_height)),num_row,replace=False)
             y_ = [i for i in height_list if i not in y]
             for yidx in y:
+                if self.pacman.get_pix_pos(vec(xinx,yidx)) == self.pacman.pix_pos:
+                    continue
                 self.wall.append(vec(xinx, yidx))
             for y_idx in y_:
                 self.empty_coins.append(vec(xinx, y_idx))
@@ -148,64 +151,149 @@ class App:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),1)]
                     self.pacman.step = 0
                     self.pacman.astar.nodes_across = 0
+                    if self.select != None:
+                        self.pacman.flag = True
+                        if self.select == 'bfs':
+                            self.pacman.bfs.nodes_across = 0
                 if event.key == pygame.K_2:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),2)]
                     self.pacman.step = 0
                     self.pacman.astar.nodes_across = 0
+                    if self.select != None:
+                        self.pacman.flag = True
+                        if self.select == 'bfs':
+                            self.pacman.bfs.nodes_across = 0
                 if event.key == pygame.K_3:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),3)]
                     self.pacman.step = 0
                     self.pacman.astar.nodes_across = 0
+                    if self.select != None:
+                        self.pacman.flag = True
+                        if self.select == 'bfs':
+                            self.pacman.bfs.nodes_across = 0
                 if event.key == pygame.K_4:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),4)]
                     self.pacman.step = 0
                     self.pacman.astar.nodes_across = 0
+                    if self.select != None:
+                        self.pacman.flag = True
+                        if self.select == 'bfs':
+                            self.pacman.bfs.nodes_across = 0
                 if event.key == pygame.K_5:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),5)]
                     self.pacman.step = 0
                     self.pacman.astar.nodes_across = 0
+                    if self.select != None:
+                        self.pacman.flag = True
+                        if self.select == 'bfs':
+                            self.pacman.bfs.nodes_across = 0
                 if event.key == pygame.K_6:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),6)]
                     self.pacman.step = 0
                     self.pacman.astar.nodes_across = 0
+                    if self.select != None:
+                        self.pacman.flag = True
+                        if self.select == 'bfs':
+                            self.pacman.bfs.nodes_across = 0
                 if event.key == pygame.K_7:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),7)]
                     self.pacman.step = 0
                     self.pacman.astar.nodes_across = 0
+                    if self.select != None:
+                        self.pacman.flag = True
+                        if self.select == 'bfs':
+                            self.pacman.bfs.nodes_across = 0
                 if event.key == pygame.K_8:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),8)]
                     self.pacman.step = 0
                     self.pacman.astar.nodes_across = 0
+                    if self.select != None:
+                        self.pacman.flag = True
+                        if self.select == 'bfs':
+                            self.pacman.bfs.nodes_across = 0
                 if event.key == pygame.K_9:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),9)]
                     self.pacman.step = 0
                     self.pacman.astar.nodes_across = 0
+                    if self.select != None:
+                        self.pacman.flag = True
+                        if self.select == 'bfs':
+                            self.pacman.bfs.nodes_across = 0
                 if event.key == pygame.K_q:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),10)]
                     self.pacman.step = 0
                     self.pacman.astar.nodes_across = 0
+                    if self.select != None:
+                        self.pacman.flag = True
+                        if self.select == 'bfs':
+                            self.pacman.bfs.nodes_across = 0
                 if event.key == pygame.K_w:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),11)]
                     self.pacman.step = 0
                     self.pacman.astar.nodes_across = 0
+                    if self.select != None:
+                        self.pacman.flag = True
+                        if self.select == 'bfs':
+                            self.pacman.bfs.nodes_across = 0
                 if event.key == pygame.K_e:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),12)]
                     self.pacman.step = 0
                     self.pacman.astar.nodes_across = 0
+                    if self.select != None:
+                        self.pacman.flag = True
+                        if self.select == 'bfs':
+                            self.pacman.bfs.nodes_across = 0
                 if event.key == pygame.K_r:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),13)]
                     self.pacman.step = 0
                     self.pacman.astar.nodes_across = 0
+                    if self.select != None:
+                        self.pacman.flag = True
+                        if self.select == 'bfs':
+                            self.pacman.bfs.nodes_across = 0
                 if event.key == pygame.K_a:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),14)]
                     self.pacman.step = 0
                     self.pacman.astar.nodes_across = 0
+                    if self.select != None:
+                        self.pacman.flag = True
+                        if self.select == 'bfs':
+                            self.pacman.bfs.nodes_across = 0
                 if event.key == pygame.K_s:
                     self.coins = [self.empty_coins[i] for i in random.sample(range(0,len(self.empty_coins)),15)]
                     self.pacman.step = 0
                     self.pacman.astar.nodes_across = 0
+                    if self.select != None:
+                        self.pacman.flag = True
+                        if self.select == 'bfs':
+                            self.pacman.bfs.nodes_across = 0
                 if event.key == pygame.K_c:
                     self.select = None
+                if event.key == pygame.K_b:
+                    self.select = 'bfs'
+                    self.pacman.bfs = BFS(self)
+                    self.pacman.flag = True
+                    self.coins = [vec(29,15), vec(25,28), vec(53,14)]
+                    self.pacman.pix_pos = self.pacman.get_pix_pos(vec(1,1))
+                    self.pacman.step = 0
+                    self.pacman.bfs.nodes_across = 0
+                if event.key == pygame.K_v:
+                    self.select = 'a star'
+                    self.pacman.flag = True
+                    self.coins = [vec(29,15), vec(25,28), vec(53,14)]
+                    self.pacman.pix_pos = self.pacman.get_pix_pos(vec(1,1))
+                    self.pacman.step = 0
+                    self.pacman.astar.nodes_across = 0
+                if event.key == pygame.K_o:
+                    self.wall, self.empty_coins = [], []
+                    with open("wall.txt","r") as file:
+                        for yidx,line in enumerate(file):
+                            for xinx, char in enumerate(line):
+                                if char == "1":
+                                    self.wall.append(vec(xinx, yidx))
+                                if char == "0":
+                                    self.empty_coins.append(vec(xinx, yidx))
+
     def playing_update(self):
         self.pacman.update()
     def playing_draw(self):
