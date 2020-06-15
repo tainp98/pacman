@@ -1,10 +1,9 @@
-# **Project Name**
+# **PROJECT NAME**
 Pacman game
 
 ---
 
 ### **Table of contents**
-**You're sections headers will be used to reference location of destination**
 - [Description](#description)
 - [Environment](#environment)
 - [Prerequisites](#prerequisites)
@@ -42,13 +41,23 @@ python/python3 -m pip install -r requirements.txt (on Ubuntu)
 ---
 
 ## **How To Use**
-1. Run program
+1. Parameters
+   - '-s', '--select' : input parameters
+   - if s = `a star` switch to maze for a* algorithm
+   - if s = `bfs` switch to maze for bfs algorithm
+   - > **select s that show same maze between a* and bfs to compare 2 algorithms
+   - if s = `None` nomal mode
+   - **Note : the BFS algorithm only run on origin maze**
+2. Run program
    - py main.py (on Window)
    - python/python3 main.py or ./run.sh (on Ubuntu)
 2. KeyBroad
    - Press any keybroad to start game
    - Then press keybroad[1,2,3,4,5,6,7,8,9,q,w,e,r,a,s] to start action add coins to maze [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15] numbers of coin 
-   - Press keybroad P to changes maze while program is running
+   - Press keybroad P to changes maze while program is running. Keybroad O to return origin maze
+   - Press keybroad C to assign `select` = `None`
+   - Press keybroad V to assign `select` = `a star`
+   - Press keybroad B to assign `select` = `bfs`
 
 ---
 
